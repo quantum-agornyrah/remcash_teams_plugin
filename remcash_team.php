@@ -2,7 +2,7 @@
 /**
  * Plugin Name: Remcash Team
  * Description: Interactive two-section team showcase (Board & Team) for Elementor with card grid, modal popup, and "Other Members" navigation.
- * Version: 1.0.0
+ * Version: 1.0.1
  *  Author: Agornyrah Eric
  * Text Domain: remcash-team
  */
@@ -94,18 +94,21 @@ class Remcash_Team {
     }
 
     public function enqueue_scripts() {
+        $css_ver = file_exists( REMCASH_TEAM_PATH . 'assets/css/remcash_team.css' ) ? filemtime( REMCASH_TEAM_PATH . 'assets/css/remcash_team.css' ) : REMCASH_TEAM_VERSION;
+        $js_ver  = file_exists( REMCASH_TEAM_PATH . 'assets/js/remcash_team.js' )  ? filemtime( REMCASH_TEAM_PATH . 'assets/js/remcash_team.js' )  : REMCASH_TEAM_VERSION;
+
         wp_enqueue_style(
             'remcash-team',
             REMCASH_TEAM_URL . 'assets/css/remcash_team.css',
             [ 'elementor-frontend' ],
-            REMCASH_TEAM_VERSION
+            $css_ver
         );
 
         wp_enqueue_script(
             'remcash-team',
             REMCASH_TEAM_URL . 'assets/js/remcash_team.js',
             [ 'jquery', 'elementor-frontend' ],
-            REMCASH_TEAM_VERSION,
+            $js_ver,
             true
         );
     }

@@ -144,6 +144,25 @@ class Remcash_Team_Widget extends \Elementor\Widget_Base {
             'selectors'  => [ '{{WRAPPER}} .rct-grid' => 'gap: {{SIZE}}{{UNIT}};' ],
         ] );
 
+        $this->add_control( 'enable_board_popup', [
+            'label'        => esc_html__( 'Enable Board Bio Popup', 'remcash-team' ),
+            'type'         => \Elementor\Controls_Manager::SWITCHER,
+            'label_on'     => esc_html__( 'Yes', 'remcash-team' ),
+            'label_off'    => esc_html__( 'No', 'remcash-team' ),
+            'return_value' => 'yes',
+            'default'      => 'yes',
+            'separator'    => 'before',
+        ] );
+
+        $this->add_control( 'enable_team_popup', [
+            'label'        => esc_html__( 'Enable Team Bio Popup', 'remcash-team' ),
+            'type'         => \Elementor\Controls_Manager::SWITCHER,
+            'label_on'     => esc_html__( 'Yes', 'remcash-team' ),
+            'label_off'    => esc_html__( 'No', 'remcash-team' ),
+            'return_value' => 'yes',
+            'default'      => 'yes',
+        ] );
+
         $this->end_controls_section();
 
         /* ── STYLE: Card ──────────────────────────────────── */
@@ -452,16 +471,22 @@ class Remcash_Team_Widget extends \Elementor\Widget_Base {
         // Build a combined indexed list (group + index stored in data attrs)
         $board_label = ! empty( $settings['board_label'] ) ? $settings['board_label'] : 'Our People – The Board';
         $team_label  = ! empty( $settings['team_label'] )  ? $settings['team_label']  : 'Our People – The Team';
+
+        $enable_board_popup = ( ! empty( $settings['enable_board_popup'] ) && 'yes' === $settings['enable_board_popup'] ) ? 'yes' : 'no';
+        $enable_team_popup  = ( ! empty( $settings['enable_team_popup'] )  && 'yes' === $settings['enable_team_popup'] )  ? 'yes' : 'no';
         ?>
 
-        <div class="rct-wrapper" data-widget-id="<?php echo esc_attr( $widget_id ); ?>">
+        <div class="rct-wrapper" 
+             data-widget-id="<?php echo esc_attr( $widget_id ); ?>"
+             data-enable-board-popup="<?php echo esc_attr( $enable_board_popup ); ?>"
+             data-enable-team-popup="<?php echo esc_attr( $enable_team_popup ); ?>">
 
             <?php if ( ! empty( $board_members ) ) : ?>
             <div class="rct-section">
                 <div class="rct-section-label"><?php echo esc_html( $board_label ); ?></div>
                 <div class="rct-grid">
                     <?php foreach ( $board_members as $idx => $m ) : ?>
-                        <div class="rct-card-wrap" data-group="board" data-index="<?php echo esc_attr( $idx ); ?>">
+                        <div class="rct-card-wrap<?php echo 'yes' !== $enable_board_popup ? ' rct-no-popup' : ''; ?>" data-group="board" data-index="<?php echo esc_attr( $idx ); ?>">
                             <?php $this->render_card( $m ); ?>
                         </div>
                     <?php endforeach; ?>
@@ -474,7 +499,7 @@ class Remcash_Team_Widget extends \Elementor\Widget_Base {
                 <div class="rct-section-label"><?php echo esc_html( $team_label ); ?></div>
                 <div class="rct-grid">
                     <?php foreach ( $team_members as $idx => $m ) : ?>
-                        <div class="rct-card-wrap" data-group="team" data-index="<?php echo esc_attr( $idx ); ?>">
+                        <div class="rct-card-wrap<?php echo 'yes' !== $enable_team_popup ? ' rct-no-popup' : ''; ?>" data-group="team" data-index="<?php echo esc_attr( $idx ); ?>">
                             <?php $this->render_card( $m ); ?>
                         </div>
                     <?php endforeach; ?>

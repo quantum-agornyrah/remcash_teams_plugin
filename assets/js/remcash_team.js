@@ -23,6 +23,13 @@
             this.bindEvents();
         }
 
+        destroy() {
+            this.$wrapper.off('.rct');
+            $('#rct-close-' + this.widgetId).off('.rct');
+            this.$overlay.off('.rct');
+            $(document).off('keydown.rct-' + this.widgetId);
+        }
+
         loadData() {
             const $script = $('#rct-data-' + this.widgetId);
             if ($script.length) {
@@ -35,19 +42,39 @@
         }
 
         bindEvents() {
-            // Open on card-wrap click
-            this.$wrapper.find('.rct-card-wrap').on('click', (e) => {
+            this.destroy();
+
+            // Open on card-wrap click using event delegation
+            this.$wrapper.on('click.rct', '.rct-card-wrap', (e) => {
                 const $wrap = $(e.currentTarget);
+
+                // If card has rct-no-popup class, do not open popup
+                if ($wrap.hasClass('rct-no-popup')) {
+                    return;
+                }
+
                 const group = $wrap.data('group');   // 'board' | 'team'
+                const $parentWrapper = $wrap.closest('.rct-wrapper');
+
+                const enableBoardPopup = $parentWrapper.attr('data-enable-board-popup');
+                const enableTeamPopup  = $parentWrapper.attr('data-enable-team-popup');
+
+                if (group === 'board' && enableBoardPopup === 'no') {
+                    return;
+                }
+                if (group === 'team' && enableTeamPopup === 'no') {
+                    return;
+                }
+
                 const index = parseInt($wrap.data('index'), 10);
                 this.openPopup(group, index);
             });
 
             // Close button
-            $('#rct-close-' + this.widgetId).on('click', () => this.closePopup());
+            $('#rct-close-' + this.widgetId).on('click.rct', () => this.closePopup());
 
             // Click outside popup
-            this.$overlay.on('click', (e) => {
+            this.$overlay.on('click.rct', (e) => {
                 if ($(e.target).is(this.$overlay)) {
                     this.closePopup();
                 }
@@ -62,6 +89,13 @@
         }
 
         openPopup(group, index) {
+            // Re-verify popup setting
+            const enableBoardPopup = this.$wrapper.attr('data-enable-board-popup');
+            const enableTeamPopup  = this.$wrapper.attr('data-enable-team-popup');
+
+            if (group === 'board' && enableBoardPopup === 'no') return;
+            if (group === 'team' && enableTeamPopup === 'no') return;
+
             const members = this.data[group] || [];
             const member  = members[index];
             if (!member) return;
@@ -101,7 +135,7 @@
                     <p class="rct-other-role">${this.esc(m.role)}</p>
                 `);
 
-                $card.on('click', () => this.openPopup(group, i));
+                $card.on('click.rct', () => this.openPopup(group, i));
                 this.$othGrid.append($card);
             });
 
@@ -131,10 +165,12 @@
 
     function initAll($scope) {
         $scope.find('.rct-wrapper').each(function () {
-            if (!$(this).data('rct-init')) {
-                $(this).data('rct-init', true);
-                new RemcashTeam(this);
+            const oldInstance = $(this).data('rct-instance');
+            if (oldInstance && typeof oldInstance.destroy === 'function') {
+                oldInstance.destroy();
             }
+            const instance = new RemcashTeam(this);
+            $(this).data('rct-instance', instance);
         });
     }
 
