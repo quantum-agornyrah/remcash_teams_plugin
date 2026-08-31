@@ -1,0 +1,355 @@
+/* ── Manrope font ─────────────────────────────────────────── */
+@import url('https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600&display=swap');
+
+*,
+.rct-wrapper * {
+    box-sizing: border-box;
+    font-family: 'Manrope', Arial, sans-serif;
+}
+
+/* ── Wrapper ─────────────────────────────────────────────── */
+.rct-wrapper {
+    width: 100%;
+}
+
+/* ── Section title ───────────────────────────────────────── */
+.rct-section-label {
+    margin: 0 0 1rem;
+}
+
+/* ── Card grid ───────────────────────────────────────────── */
+.rct-grid {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 16px;
+}
+
+/* ── Card wrap (click target) ────────────────────────────── */
+.rct-card-wrap {
+    cursor: pointer;
+}
+
+/* ── Individual card ─────────────────────────────────────── */
+.rct-card {
+    padding: 20px;
+    background: #ffffff;
+    border: 1px solid #e5e5e5;
+    border-radius: 10px;
+    overflow: hidden;
+    transition: border-color 0.15s ease;
+    width: 100%;
+    max-height: 370px;
+}
+
+.rct-card-wrap:hover .rct-card {
+    border-color: #2C6DDB;
+}
+
+.rct-card img {
+    width: 100%;
+    height: 285px;
+    object-fit: cover;
+    object-position: top;
+    display: block;
+    border-radius: 6px;
+}
+
+.rct-card-initials {
+    width: 100%;
+    height: 285px;
+    background: #f0f0f0;
+    border-radius: 6px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 40px;
+    font-weight: 500;
+    color: #888;
+}
+
+.rct-card-info {
+    padding: 10px 0 0;
+}
+
+.rct-card-name {
+    margin: 8px 0 0;
+}
+
+.rct-card-role {
+    margin: 2px 0 0;
+}
+
+/* ── Overlay ─────────────────────────────────────────────── */
+.rct-overlay {
+    display: none;
+    position: fixed;
+    inset: 0;
+    background: rgba(0, 0, 0, 0.55);
+    align-items: center;
+    justify-content: center;
+    padding: 2rem;
+    z-index: 99999;
+    overflow-y: auto;
+}
+
+.rct-overlay.active {
+    display: flex;
+}
+
+/* ── Popup ───────────────────────────────────────────────── */
+.rct-popup {
+    background: #ffffff;
+    border-radius: 5px;
+    border: 1px solid #e5e5e5;
+    width: 95%;
+    max-width: 1100px;
+    display: flex;
+    flex-direction: row;
+    align-items: flex-start;
+    overflow: hidden;
+    max-height: 90vh;
+    position: relative;
+}
+
+/* ── Popup left (photo column) ───────────────────────────── */
+.rct-popup-left {
+    width: 280px;
+    flex-shrink: 0;
+    padding: 1.75rem 0.875rem 1.75rem 1.75rem;
+}
+
+.rct-popup-left img {
+    width: 100%;
+    display: block;
+    object-fit: cover;
+    object-position: top;
+    border-radius: 6px;
+}
+
+.rct-popup-left-initials {
+    width: 100%;
+    aspect-ratio: 3/4;
+    border-radius: 8px;
+    background: #f0f0f0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 52px;
+    font-weight: 500;
+    color: #888;
+}
+
+/* ── Popup right (content column) ───────────────────────── */
+.rct-popup-right {
+    flex: 1;
+    padding: 1.75rem 2rem 1.75rem 0.875rem;
+    overflow-y: auto;
+    max-height: 90vh;
+}
+
+.rct-popup-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    margin-bottom: 4px;
+}
+
+.rct-popup-name {
+    margin: 0;
+}
+
+.rct-popup-role {
+    margin: 0 0 16px;
+}
+
+.rct-popup-bio {
+    line-height: 1.7;
+    margin: 0 0 1.75rem;
+}
+
+/* ── Other Members ───────────────────────────────────────── */
+.rct-others-label {
+    margin: 0 0 12px;
+}
+
+.rct-others-grid {
+    display: flex;
+    flex-wrap: nowrap;
+    gap: 10px;
+    overflow-x: auto;
+    padding-bottom: 4px;
+}
+
+.rct-other-card {
+    cursor: pointer;
+    flex: 0 0 auto;
+    width: 120px;
+}
+
+.rct-other-card img {
+    width: 100%;
+    height: 135px;
+    object-fit: cover;
+    object-position: top;
+    display: block;
+    border-radius: 4px;
+}
+
+.rct-other-initials {
+    width: 100%;
+    height: 135px;
+    border-radius: 6px;
+    background: #f0f0f0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 18px;
+    font-weight: 500;
+    color: #888;
+}
+
+.rct-other-name {
+    margin: 8px 0 0;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+.rct-other-role {
+    margin: 2px 0 0;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+/* ── Close button ────────────────────────────────────────── */
+.rct-close-btn {
+    background: none;
+    border: 1px solid #ddd;
+    border-radius: 5px;
+    padding: 5px 10px;
+    font-size: 14px;
+    cursor: pointer;
+    color: #777;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+    transition: background 0.15s;
+}
+
+.rct-close-btn:hover {
+    background: #f5f5f5;
+}
+
+/* ── Tablet (≤ 1024px) ───────────────────────────────────── */
+@media (max-width: 1024px) {
+
+    .rct-section-label { text-align: center; }
+
+    .rct-grid {
+        grid-template-columns: repeat(2, 1fr);
+        gap: 14px;
+    }
+
+    .rct-card { max-height: none; padding: 14px; }
+
+    .rct-card img,
+    .rct-card-initials { height: 240px; }
+
+    .rct-popup {
+        flex-direction: row;
+        max-height: 88vh;
+        width: 96%;
+    }
+
+    .rct-popup-left  { width: 200px; padding: 1.25rem 0.75rem 1.25rem 1.25rem; }
+    .rct-popup-right { padding: 1.25rem 1.25rem 1.25rem 0.75rem; max-height: 88vh; }
+
+    /* Typography controlled by Elementor */
+
+    .rct-others-grid  { gap: 8px; }
+
+    .rct-other-card { width: 100px; }
+    .rct-other-card img { height: 110px; }
+    .rct-other-initials { height: 110px; font-size: 16px; }
+}
+
+/* ── Mobile (≤ 640px) ────────────────────────────────────── */
+@media (max-width: 640px) {
+
+    .rct-section-label { margin: 1.25rem 0 0.75rem; }
+
+    .rct-grid {
+        grid-template-columns: 1fr;
+        gap: 12px;
+    }
+
+    .rct-card { padding: 12px; max-height: none; }
+
+    .rct-card img,
+    .rct-card-initials { height: 260px; }
+
+    /* Typography controlled by Elementor */
+
+    /* Popup: slide up from bottom */
+    .rct-overlay {
+        padding: 0;
+        align-items: flex-end;
+    }
+
+    .rct-popup {
+        flex-direction: column;
+        width: 100%;
+        max-width: 100%;
+        max-height: 92vh;
+        border-radius: 16px 16px 0 0;
+        overflow-y: auto;
+    }
+
+    .rct-popup-left {
+        width: 100%;
+        padding: 1.25rem 1.25rem 0.5rem;
+        display: flex;
+        justify-content: center;
+    }
+
+    .rct-popup-left img {
+        width: 140px;
+        height: 170px;
+        object-fit: cover;
+        object-position: top;
+    }
+
+    .rct-popup-left-initials {
+        width: 140px;
+        height: 170px;
+        aspect-ratio: unset;
+        font-size: 40px;
+    }
+
+    .rct-popup-right {
+        width: 100%;
+        padding: 0.75rem 1.25rem 1.5rem;
+        max-height: none;
+        overflow-y: visible;
+        border-left: none;
+        border-top: 1px solid #e5e5e5;
+    }
+
+    .rct-popup-bio  { margin-bottom: 1.25rem; }
+
+    .rct-others-grid   { gap: 8px; }
+
+    .rct-other-card { width: 90px; }
+    .rct-other-card img { height: 100px; }
+    .rct-other-initials { height: 100px; font-size: 14px; }
+
+    .rct-popup-header {
+        position: sticky;
+        top: 0;
+        background: #fff;
+        z-index: 2;
+        padding: 0.75rem 0 0.25rem;
+    }
+}
