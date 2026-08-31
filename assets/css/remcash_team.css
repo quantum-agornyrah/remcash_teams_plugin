@@ -29,6 +29,10 @@
     cursor: pointer;
 }
 
+.rct-card-wrap.rct-no-popup {
+    cursor: default;
+}
+
 /* ── Individual card ─────────────────────────────────────── */
 .rct-card {
     padding: 20px;
